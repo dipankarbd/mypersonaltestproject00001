@@ -77,4 +77,107 @@ namespace UdacityRoboCar
         }
 
     }
+
+    public class Localization2
+    {
+        private string[,] colors = { { "red", "green", "green", "red", "red" }, { "red", "red", "green", "red", "red" }, { "red", "red", "green", "green", "red" }, { "red", "red", "red", "red", "red" } };
+        private string[] measurements = { "green", "green", "green", "green", "green" };
+        private int[,] motions = { { 0, 0 }, { 0, 1 }, { 1, 0 }, { 1, 0 }, { 0, 1 } };
+
+        float sensor_right = 0.7f;
+        float p_move = 0.8f;
+
+        float sensor_wrong;
+        float p_stay;
+        private float[,] p;
+
+        public Localization2()
+        {
+            sensor_wrong = 1.0f - sensor_right;
+            p_stay = 1.0f - p_move;
+        }
+
+        public void Execute()
+        {
+            Console.WriteLine("**************************** LOCALIZATION 2**************************************");
+            if (measurements.Length != motions.GetLength(0)) throw new Exception("error in size of measurement/motion vector");
+
+
+
+            p = new float[colors.GetLength(0), colors.GetLength(1)];
+            float pinit = 1.0f / (float)colors.Length;
+
+            for (int i = 0; i < colors.GetLength(0); i++)
+            {
+                for (int j = 0; j < colors.GetLength(1); j++)
+                {
+                    p[i, j] = pinit;
+                }
+            }
+
+            for (int i = 0; i < measurements.Length; i++)
+            {
+                p = this.Move(p, new[] { motions[i, 0], motions[i, 1] });
+                p = this.Sense(p, colors, measurements[i]);
+            }
+
+            this.Show(p);
+        }
+
+        private float[,] Sense(float[,] p, string[,] colors, string measurement)
+        {
+            float[,] aux = new float[p.GetLength(0), p.GetLength(1)];
+
+            float s = 0.0f;
+            for (int i = 0; i < p.GetLength(0); i++)
+            {
+                for (int j = 0; j < p.GetLength(1); j++)
+                {
+                    bool hit = measurement.Equals(colors[i, j]);
+                    if (hit) aux[i, j] = p[i, j] * sensor_right;
+                    else aux[i, j] = p[i, j] * sensor_wrong;
+                    s += aux[i, j];
+                }
+            }
+            for (int i = 0; i < aux.GetLength(0); i++)
+            {
+                for (int j = 0; j < aux.GetLength(1); j++)
+                {
+                    aux[i, j] = aux[i, j] / s;
+                }
+            }
+            return aux;
+        }
+
+        private float[,] Move(float[,] p, int[] motion)
+        {
+            float[,] aux = new float[p.GetLength(0), p.GetLength(1)];
+            for (int i = 0; i < p.GetLength(0); i++)
+            {
+                for (int j = 0; j < p.GetLength(1); j++)
+                {
+                    int x = (i - motion[0]) % p.GetLength(0);
+                    if (x < 0) x = p.GetLength(0) + x;
+                    int y = (j - motion[1]) % p.GetLength(1);
+                    if (y < 0) y = p.GetLength(1) + y;
+
+                    aux[i, j] = (p_move * p[x, y]) + (p_stay * p[i, j]);
+                }
+            }
+            return aux;
+        }
+
+
+        public void Show(float[,] p)
+        {
+            for (int i = 0; i < p.GetLength(0); i++)
+            {
+                for (int j = 0; j < p.GetLength(1); j++)
+                {
+                    Console.Write(p[i, j] + "\t");
+                }
+                Console.Write("\n");
+            }
+        }
+    }
 }
