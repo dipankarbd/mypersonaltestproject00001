@@ -164,9 +164,15 @@ namespace ThinkComplexity
                         this.AddEdge(edge);
                     }
                 }
-            } 
+            }
         }
 
+        public void AddRegularEdges(int degree)
+        {
+            throw new NotImplementedException();
+        }
+
+       
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
