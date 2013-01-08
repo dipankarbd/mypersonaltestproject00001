@@ -38,7 +38,7 @@ namespace ThinkComplexity
 
             RandomGraph g = new RandomGraph(vertices);
             g.AddRandomEdges(0.5f);
-            RandomLayout layout = new RandomLayout(g, 400);
+            RandomLayout layout = new RandomLayout(g, 300);
              layout.SpreadVertices();
             GraphWorld gw = new GraphWorld(g, layout);
             gw.ShowDialog();

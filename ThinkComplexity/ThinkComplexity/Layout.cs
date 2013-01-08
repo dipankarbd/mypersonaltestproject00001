@@ -63,7 +63,7 @@ namespace ThinkComplexity
     {
         private float max;
         private Random rnd;
-        public RandomLayout(Graph g, float max = 10)
+        public RandomLayout(Graph g, float max = 1)
             : base(g)
         {
             this.max = max;
