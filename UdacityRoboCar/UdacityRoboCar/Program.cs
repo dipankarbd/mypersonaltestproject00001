@@ -10,9 +10,11 @@ namespace UdacityRoboCar
     {
         static void Main(string[] args)
         {
-            Localization2 localization = new Localization2();
-            localization.Execute();
+            //Localization2 localization = new Localization2();
+            //localization.Execute();
 
+            LocalizationGUI localizationGUI = new LocalizationGUI();
+            localizationGUI.ShowDialog();
             Console.ReadKey();
         }
     }
