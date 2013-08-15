@@ -39,6 +39,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Geometry\BBox.cs" />
+    <Compile Include="Core\Geometry\Geometry.cs" />
+    <Compile Include="Core\Geometry\Normal.cs" />
+    <Compile Include="Core\Geometry\Point.cs" />
+    <Compile Include="Core\Geometry\Ray.cs" />
+    <Compile Include="Core\Geometry\RayDifferential.cs" />
+    <Compile Include="Core\Geometry\Vector.cs" />
+    <Compile Include="Core\Matrix4x4.cs" />
+    <Compile Include="Core\Quaternion.cs" />
+    <Compile Include="Core\Transform.cs" />
+    <Compile Include="Core\Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
