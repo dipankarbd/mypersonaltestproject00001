@@ -11,8 +11,8 @@ namespace nPBRT.Core.Geometry
         public Point pMin, pMax;
         public BBox()
         {
-            pMin = new Point(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
-            pMax = new Point(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity);
+            pMin = new Point(double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity);
+            pMax = new Point(double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity);
         }
         public BBox(Point p)
         {
@@ -37,17 +37,17 @@ namespace nPBRT.Core.Geometry
                     pt.y >= pMin.y && pt.y <= pMax.y &&
                     pt.z >= pMin.z && pt.z <= pMax.z);
         }
-        public void Expand(float delta)
+        public void Expand(double delta)
         {
             pMin -= new Vector(delta, delta, delta);
             pMax += new Vector(delta, delta, delta);
         }
-        public float SurfaceArea()
+        public double SurfaceArea()
         {
             Vector d = pMax - pMin;
-            return 2.0f * (d.x * d.y + d.x * d.z + d.y * d.z);
+            return 2.0d * (d.x * d.y + d.x * d.z + d.y * d.z);
         }
-        public float Volume()
+        public double Volume()
         {
             Vector d = pMax - pMin;
             return d.x * d.y * d.z;
@@ -62,7 +62,7 @@ namespace nPBRT.Core.Geometry
             else
                 return 2;
         }
-        public Point Lerp(float tx, float ty, float tz)
+        public Point Lerp(double tx, double ty, double tz)
         {
             return new Point(Utility.Lerp(tx, pMin.x, pMax.x),
                 Utility.Lerp(ty, pMin.y, pMax.y),
@@ -74,24 +74,24 @@ namespace nPBRT.Core.Geometry
                           (p.y - pMin.y) / (pMax.y - pMin.y),
                           (p.z - pMin.z) / (pMax.z - pMin.z));
         }
-        public void BoundingSphere(out Point c, out float rad)
+        public void BoundingSphere(out Point c, out double rad)
         {
             c = (0.5f * pMin) + (0.5f * pMax);
-            rad = Inside(c) ? Geometry.Distance(c, pMax) : 0.0f;
+            rad = Inside(c) ? Geometry.Distance(c, pMax) : 0.0d;
         }
-        public bool IntersectP(Ray ray, out float hitt0, out float hitt1)
+        public bool IntersectP(Ray ray, out double hitt0, out double hitt1)
         {
-            hitt0 = hitt1 = float.PositiveInfinity;
-            float t0 = ray.mint, t1 = ray.maxt;
+            hitt0 = hitt1 = double.PositiveInfinity;
+            double t0 = ray.mint, t1 = ray.maxt;
             for (int i = 0; i < 3; ++i)
             {
                 // Update interval for _i_th bounding box slab
-                float invRayDir = 1.0f / ray.d[i];
-                float tNear = (pMin[i] - ray.o[i]) * invRayDir;
-                float tFar = (pMax[i] - ray.o[i]) * invRayDir;
+                double invRayDir = 1.0d / ray.d[i];
+                double tNear = (pMin[i] - ray.o[i]) * invRayDir;
+                double tFar = (pMax[i] - ray.o[i]) * invRayDir;
 
                 // Update parametric interval from slab intersection $t$s
-                if (tNear > tFar) Utility.Swap<float>(ref tNear, ref  tFar);
+                if (tNear > tFar) Utility.Swap<double>(ref tNear, ref  tFar);
                 t0 = tNear > t0 ? tNear : t0;
                 t1 = tFar < t1 ? tFar : t1;
                 if (t0 > t1) return false;

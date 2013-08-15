@@ -8,12 +8,12 @@ namespace nPBRT.Core.Geometry
 {
     public class Normal
     {
-        public float x, y, z;
+        public double x, y, z;
         public Normal()
         {
-            this.x = this.y = this.z = 0.0f;
+            this.x = this.y = this.z = 0.0d;
         }
-        public Normal(float x, float y, float z)
+        public Normal(double x, double y, double z)
         {
             if (HasNaNs()) throw new NotFiniteNumberException();
 
@@ -29,7 +29,7 @@ namespace nPBRT.Core.Geometry
         }
         public bool HasNaNs()
         {
-            return float.IsNaN(this.x) || float.IsNaN(this.x) || float.IsNaN(this.x);
+            return double.IsNaN(this.x) || double.IsNaN(this.x) || double.IsNaN(this.x);
         }
         public static Normal operator -(Normal n)
         {
@@ -43,29 +43,29 @@ namespace nPBRT.Core.Geometry
         {
             return new Normal(n1.x - n2.x, n1.y - n2.y, n1.z - n2.z);
         }
-        public static Normal operator *(float f, Normal n)
+        public static Normal operator *(double f, Normal n)
         {
             return new Normal(f * n.x, f * n.y, f * n.z);
         }
-        public static Normal operator *(Normal n, float f)
+        public static Normal operator *(Normal n, double f)
         {
             return new Normal(f * n.x, f * n.y, f * n.z);
         }
-        public static Normal operator /(Normal n, float f)
+        public static Normal operator /(Normal n, double f)
         {
-            if (f == 0.0f) throw new InvalidOperationException();
-            float inv = 1.0f / f;
+            if (f == 0.0d) throw new InvalidOperationException();
+            double inv = 1.0d / f;
             return new Normal(n.x * inv, n.y * inv, n.z * inv);
         }
-        public float LengthSquared()
+        public double LengthSquared()
         {
             return this.x * this.x + this.y * this.y + this.z * this.z;
         }
-        public float Length()
+        public double Length()
         {
-            return (float)Math.Sqrt(LengthSquared());
+            return Math.Sqrt(LengthSquared());
         }
-        public float this[int index]
+        public double this[int index]
         {
             get
             {

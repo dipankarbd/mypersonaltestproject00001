@@ -8,12 +8,12 @@ namespace nPBRT.Core.Geometry
 {
     public class Point
     {
-        public float x, y, z;
+        public double x, y, z;
         public Point()
         {
-            this.x = this.y = this.z = 0.0f;
+            this.x = this.y = this.z = 0.0d;
         }
-        public Point(float x, float y, float z)
+        public Point(double x, double y, double z)
         {
             if (HasNaNs()) throw new NotFiniteNumberException();
 
@@ -23,7 +23,7 @@ namespace nPBRT.Core.Geometry
         }
         public bool HasNaNs()
         {
-            return float.IsNaN(this.x) || float.IsNaN(this.x) || float.IsNaN(this.x);
+            return double.IsNaN(this.x) || double.IsNaN(this.x) || double.IsNaN(this.x);
         }
         public static Point operator +(Point p, Vector v)
         {
@@ -42,22 +42,22 @@ namespace nPBRT.Core.Geometry
             return new Point(p.x - v.x, p.y - v.y, p.z - v.z);
         }
 
-        public static Point operator *(Point v, float f)
+        public static Point operator *(Point v, double f)
         {
             return new Point(f * v.x, f * v.y, f * v.z);
         }
 
-        public static Point operator *(float f, Point v)
+        public static Point operator *(double f, Point v)
         {
             return new Point(f * v.x, f * v.y, f * v.z);
         }
-        public static Point operator /(Point v, float f)
+        public static Point operator /(Point v, double f)
         {
-            if (f == 0.0f) throw new InvalidOperationException();
-            float inv = 1.0f / f;
+            if (f == 0.0d) throw new InvalidOperationException();
+            double inv = 1.0d / f;
             return new Point(v.x * inv, v.y * inv, v.z * inv);
         }
-        public float this[int index]
+        public double this[int index]
         {
             get
             {

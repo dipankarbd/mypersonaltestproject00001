@@ -10,18 +10,18 @@ namespace nPBRT.Core.Geometry
     {
         public Point o;
         public Vector d;
-        public float mint, maxt;
-        public float time;
+        public double mint, maxt;
+        public double time;
         public int depth;
 
         public Ray()
         {
-            this.mint = 0.0f;
-            this.maxt = float.PositiveInfinity;
-            this.time = 0.0f;
+            this.mint = 0.0d;
+            this.maxt = double.PositiveInfinity;
+            this.time = 0.0d;
             this.depth = 0;
         }
-        public Ray(Point origin, Vector direction, float start, float end = float.PositiveInfinity, float t = 0.0f, int d = 0)
+        public Ray(Point origin, Vector direction, double start, double end = double.PositiveInfinity, double t = 0.0d, int d = 0)
         {
             this.o = origin;
             this.d = direction;
@@ -30,7 +30,7 @@ namespace nPBRT.Core.Geometry
             this.time = t;
             this.depth = d;
         }
-        public Ray(Point origin, Vector direction, Ray parent, float start, float end = float.PositiveInfinity)
+        public Ray(Point origin, Vector direction, Ray parent, double start, double end = double.PositiveInfinity)
         {
             this.o = origin;
             this.d = direction;
@@ -39,13 +39,13 @@ namespace nPBRT.Core.Geometry
             this.time = parent.time;
             this.depth = parent.depth + 1;
         }
-        public Point Value(float t)
+        public Point Value(double t)
         {
             return o + d * t;
         }
         public virtual bool HasNaNs()
         {
-            return (o.HasNaNs() || d.HasNaNs() || float.IsNaN(mint) || float.IsNaN(maxt));
+            return (o.HasNaNs() || d.HasNaNs() || double.IsNaN(mint) || double.IsNaN(maxt));
         }
         public void DoSomething()
         {

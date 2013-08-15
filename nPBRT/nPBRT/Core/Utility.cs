@@ -8,9 +8,9 @@ namespace nPBRT.Core
 {
     public class Utility
     {
-        public static float Lerp(float t, float v1, float v2)
+        public static double Lerp(double t, double v1, double v2)
         {
-            return (1.0f - t) * v1 + t * v2;
+            return (1.0d - t) * v1 + t * v2;
         }
         public static void Swap<T>(ref T left, ref T right)
         {
@@ -18,15 +18,15 @@ namespace nPBRT.Core
             left = right;
             right = tmp;
         }
-        public static float Clamp(float val, float low, float high)
+        public static double Clamp(double val, double low, double high)
         {
             if (val < low) return low;
             else if (val > high) return high;
             else return val;
         }
-        public static float Radians(float deg)
+        public static double Radians(double deg)
         {
-            return ((float)Math.PI / 180.0f) * deg;
+            return (Math.PI / 180.0d) * deg;
         }
     }
 }

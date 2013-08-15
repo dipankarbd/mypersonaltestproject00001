@@ -16,12 +16,12 @@ namespace nPBRT.Core.Geometry
         {
             this.hasDifferentials = false;
         }
-        public RayDifferential(Point org, Vector dir, float start, float end = float.PositiveInfinity, float t = 0.0f, int d = 0)
+        public RayDifferential(Point org, Vector dir, double start, double end = double.PositiveInfinity, double t = 0.0d, int d = 0)
             : base(org, dir, start, end, t, d)
         {
             this.hasDifferentials = false;
         }
-        public RayDifferential(Point org, Vector dir, Ray parent, float start, float end = float.PositiveInfinity)
+        public RayDifferential(Point org, Vector dir, Ray parent, double start, double end = double.PositiveInfinity)
             : base(org, dir, start, end, parent.time, parent.depth + 1)
         {
             this.hasDifferentials = false;
@@ -35,7 +35,7 @@ namespace nPBRT.Core.Geometry
         {
             return base.HasNaNs() || (hasDifferentials && (rxOrigin.HasNaNs() || ryOrigin.HasNaNs() || rxDirection.HasNaNs() || ryDirection.HasNaNs()));
         }
-        public void ScaleDifferentials(float s)
+        public void ScaleDifferentials(double s)
         {
             this.rxOrigin = o + (rxOrigin - o) * s;
             this.ryOrigin = o + (ryOrigin - o) * s;

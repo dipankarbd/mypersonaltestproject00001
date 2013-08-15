@@ -8,18 +8,18 @@ namespace nPBRT.Core
 {
     public struct Matrix4x4
     {
-        public float[,] m;
-        public Matrix4x4(float[,] m)
+        public double[,] m;
+        public Matrix4x4(double[,] m)
         {
-            this.m = new float[4, 4];
+            this.m = new double[4, 4];
             Array.Copy(m, this.m, 4 * 4);
         }
-        public Matrix4x4(float t00, float t01, float t02, float t03,
-              float t10, float t11, float t12, float t13,
-              float t20, float t21, float t22, float t23,
-              float t30, float t31, float t32, float t33)
+        public Matrix4x4(double t00, double t01, double t02, double t03,
+              double t10, double t11, double t12, double t13,
+              double t20, double t21, double t22, double t23,
+              double t30, double t31, double t32, double t33)
         {
-            m = new float[4, 4];
+            m = new double[4, 4];
             m[0, 0] = t00; m[0, 1] = t01; m[0, 2] = t02; m[0, 3] = t03;
             m[1, 0] = t10; m[1, 1] = t11; m[1, 2] = t12; m[1, 3] = t13;
             m[2, 0] = t20; m[2, 1] = t21; m[2, 2] = t22; m[2, 3] = t23;

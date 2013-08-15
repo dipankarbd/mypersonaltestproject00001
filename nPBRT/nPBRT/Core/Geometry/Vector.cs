@@ -8,12 +8,12 @@ namespace nPBRT.Core.Geometry
 {
     public class Vector
     {
-        public float x, y, z;
+        public double x, y, z;
         public Vector()
         {
-            this.x = this.y = this.z = 0.0f;
+            this.x = this.y = this.z = 0.0d;
         }
-        public Vector(float x, float y, float z)
+        public Vector(double x, double y, double z)
         {
             if (HasNaNs()) throw new NotFiniteNumberException();
 
@@ -29,7 +29,7 @@ namespace nPBRT.Core.Geometry
         }
         public bool HasNaNs()
         {
-            return float.IsNaN(this.x) || float.IsNaN(this.x) || float.IsNaN(this.x);
+            return double.IsNaN(this.x) || double.IsNaN(this.x) || double.IsNaN(this.x);
         }
 
         public static Vector operator +(Vector v1, Vector v2)
@@ -40,33 +40,33 @@ namespace nPBRT.Core.Geometry
         {
             return new Vector(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
         }
-        public static Vector operator *(float f, Vector v)
+        public static Vector operator *(double f, Vector v)
         {
             return new Vector(f * v.x, f * v.y, f * v.z);
         }
-        public static Vector operator *(Vector v, float f)
+        public static Vector operator *(Vector v, double f)
         {
             return new Vector(f * v.x, f * v.y, f * v.z);
         }
-        public static Vector operator /(Vector v, float f)
+        public static Vector operator /(Vector v, double f)
         {
-            if (f == 0.0f) throw new InvalidOperationException();
-            float inv = 1.0f / f;
+            if (f == 0.0d) throw new InvalidOperationException();
+            double inv = 1.0d / f;
             return new Vector(v.x * inv, v.y * inv, v.z * inv);
         }
         public static Vector operator -(Vector v)
         {
             return new Vector(-v.x, -v.y, -v.z);
         }
-        public float LengthSquared()
+        public double LengthSquared()
         {
             return this.x * this.x + this.y * this.y + this.z * this.z;
         }
-        public float Length()
+        public double Length()
         {
-            return (float)Math.Sqrt(LengthSquared());
+            return Math.Sqrt(LengthSquared());
         }
-        public float this[int index]
+        public double this[int index]
         {
             get
             {
