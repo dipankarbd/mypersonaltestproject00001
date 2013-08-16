@@ -339,10 +339,7 @@ namespace nPBRT.Core
             m[3, 2] = 0.0d;
             Matrix4x4 camToWorld = new Matrix4x4(m);
             return new Transform(Inverse(camToWorld), camToWorld);
-        }
-
-
-
+        } 
 
     }
 }

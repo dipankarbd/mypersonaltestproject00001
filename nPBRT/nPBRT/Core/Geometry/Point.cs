@@ -23,7 +23,7 @@ namespace nPBRT.Core.Geometry
         }
         public bool HasNaNs()
         {
-            return double.IsNaN(this.x) || double.IsNaN(this.x) || double.IsNaN(this.x);
+            return Double.IsNaN(this.x) || Double.IsNaN(this.x) || Double.IsNaN(this.x);
         }
         public static Point operator +(Point p, Vector v)
         {

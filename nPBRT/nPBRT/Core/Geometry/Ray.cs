@@ -45,7 +45,7 @@ namespace nPBRT.Core.Geometry
         }
         public virtual bool HasNaNs()
         {
-            return (o.HasNaNs() || d.HasNaNs() || double.IsNaN(mint) || double.IsNaN(maxt));
+            return (o.HasNaNs() || d.HasNaNs() || Double.IsNaN(mint) || Double.IsNaN(maxt));
         }
         public void DoSomething()
         {
