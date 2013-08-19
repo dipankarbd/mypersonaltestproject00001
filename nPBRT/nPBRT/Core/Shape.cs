@@ -24,8 +24,8 @@ namespace nPBRT.Core
         }
 
         public abstract BBox ObjectBound(); 
-        public abstract bool Intersect(Ray ray, out double tHit, out double rayEpsilon, out DifferentialGeometry dg);
-        public abstract bool IntersectP(Ray ray);
+        public abstract bool Intersect(Ray r, out double tHit, out double rayEpsilon, out DifferentialGeometry dg);
+        public abstract bool IntersectP(Ray r);
         public abstract double Area();
         public abstract Point Sample(double u1, double u2, ref Normal ns);
 

@@ -55,6 +55,7 @@
     <Compile Include="Core\Transform.cs" />
     <Compile Include="Core\Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shapes\Cylinder.cs" />
     <Compile Include="Shapes\Sphere.cs" />
   </ItemGroup>
   <ItemGroup />
