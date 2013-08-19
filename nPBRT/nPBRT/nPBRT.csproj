@@ -44,6 +44,7 @@
     <Compile Include="Core\Geometry.cs" />
     <Compile Include="Core\MonteCarlo.cs" />
     <Compile Include="Core\Normal.cs" />
+    <Compile Include="Core\ParamSet.cs" />
     <Compile Include="Core\Point.cs" />
     <Compile Include="Core\Ray.cs" />
     <Compile Include="Core\RayDifferential.cs" />

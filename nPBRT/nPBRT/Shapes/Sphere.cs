@@ -218,7 +218,7 @@ namespace nPBRT.Shapes
             DifferentialGeometry dgSphere;
             double thit, rayEpsilon;
             Point ps;
-            Ray r = new Ray(p, MonteCarlo.UniformSampleCone(u1, u2, cosThetaMax, wcX, wcY, wc), 1e-3f);
+            Ray r = new Ray(p, MonteCarlo.UniformSampleCone(u1, u2, cosThetaMax, wcX, wcY, wc), 1e-3d);
             if (!Intersect(r, out thit, out rayEpsilon, out dgSphere))
                 thit = Geometry.Dot(Pcenter - p, Geometry.Normalize(r.d));
             ps = r.GetPointAt(thit);
@@ -239,6 +239,14 @@ namespace nPBRT.Shapes
             double cosThetaMax = Math.Sqrt(Math.Max(0.0d, 1.0d - sinThetaMax2));
             return MonteCarlo.UniformConePdf(cosThetaMax);
         }
-         
+
+        public static Sphere CreateSphereShape(Transform o2w, Transform w2o, bool reverseOrientation, ParamSet parameters)
+        {
+            double radius = (double)parameters.GetParam("radius", 1.0d);
+            double zmin = (double)parameters.GetParam("zmin", -radius);
+            double zmax = (double)parameters.GetParam("zmax", radius);
+            double phimax = (double)parameters.GetParam("phimax", 360.0d);
+            return new Sphere(o2w, w2o, reverseOrientation, radius, zmin, zmax, phimax);
+        }
     }
 }
