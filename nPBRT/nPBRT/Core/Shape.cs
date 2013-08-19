@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using nPBRT.Core.Geometry;
+
 
 namespace nPBRT.Core
 {
@@ -23,12 +23,11 @@ namespace nPBRT.Core
             this.shapeId = nextshapeId++;
         }
 
-        public abstract BBox ObjectBound();
-        public abstract void Refine(ref List<Shape> refined);
+        public abstract BBox ObjectBound(); 
         public abstract bool Intersect(Ray ray, out double tHit, out double rayEpsilon, out DifferentialGeometry dg);
         public abstract bool IntersectP(Ray ray);
         public abstract double Area();
-        public abstract Point Sample(double u1, double u2, Normal Ns);
+        public abstract Point Sample(double u1, double u2, ref Normal ns);
 
         public virtual BBox WorldBound()
         {
@@ -40,9 +39,14 @@ namespace nPBRT.Core
             dgShading = dg;
         }
 
-        public virtual Point Sample(Point P, double u1, double u2, Normal Ns)
+        public virtual void Refine(ref List<Shape> refined)
         {
-            return Sample(u1, u2, Ns);
+            throw new NotImplementedException();
+        }
+
+        public virtual Point Sample(Point p, double u1, double u2, ref Normal ns)
+        {
+            return Sample(u1, u2, ref ns);
         }
          
         public virtual double Pdf(Point Pshape)
@@ -60,7 +64,7 @@ namespace nPBRT.Core
             if (!Intersect(ray, out thit, out rayEpsilon, out dgLight)) return 0.0d;
 
             // Convert light sample weight to solid angle measure
-            double pdf = Geometry.Geometry.DistanceSquared(p, ray.Value(thit)) / (Geometry.Geometry.AbsDot(dgLight.nn, -wi) * Area());
+            double pdf =  Geometry.DistanceSquared(p, ray.GetPointAt(thit)) / ( Geometry.AbsDot(dgLight.nn, -wi) * Area());
             if (Double.IsInfinity(pdf)) pdf = 0.0d;
             return pdf;
         }

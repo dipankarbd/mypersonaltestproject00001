@@ -43,5 +43,24 @@ namespace nPBRT.Core
                 return false;
             return true;
         }
+
+        public static bool Quadratic(double A, double B, double C, out double t0, out double t1)
+        {
+            t0 = t1 = 0.0d;
+
+            // Find quadratic discriminant
+            double discrim = B * B - 4.0d * A * C;
+            if (discrim < 0.0d) return false;
+            double rootDiscrim = Math.Sqrt(discrim);
+
+            // Compute quadratic _t_ values
+            double q;
+            if (B < 0) q = -0.5d * (B - rootDiscrim);
+            else q = -0.5d * (B + rootDiscrim);
+            t0 = q / A;
+            t1 = C / q;
+            if (t0 > t1) Utility.Swap<double>(ref t0, ref t1);
+            return true;
+        }
     }
 }

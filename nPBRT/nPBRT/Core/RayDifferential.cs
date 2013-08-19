@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace nPBRT.Core.Geometry
+namespace nPBRT.Core
 {
     public class RayDifferential : Ray
     {

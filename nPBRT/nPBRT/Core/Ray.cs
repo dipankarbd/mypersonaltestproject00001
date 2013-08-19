@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace nPBRT.Core.Geometry
+namespace nPBRT.Core
 {
     public class Ray
     {
@@ -39,7 +39,7 @@ namespace nPBRT.Core.Geometry
             this.time = parent.time;
             this.depth = parent.depth + 1;
         }
-        public Point Value(double t)
+        public Point GetPointAt(double t)
         {
             return o + d * t;
         }
@@ -47,10 +47,7 @@ namespace nPBRT.Core.Geometry
         {
             return (o.HasNaNs() || d.HasNaNs() || Double.IsNaN(mint) || Double.IsNaN(maxt));
         }
-        public void DoSomething()
-        {
-            this.o = new Point();
-        }
+       
         public Ray Copy()
         {
             Ray _r = new Ray();

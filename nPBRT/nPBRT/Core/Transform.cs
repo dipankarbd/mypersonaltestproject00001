@@ -1,5 +1,4 @@
-﻿using nPBRT.Core.Geometry;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -99,13 +98,13 @@ namespace nPBRT.Core
         public BBox Apply(BBox b)
         {
             BBox ret = new BBox(Apply(new Point(b.pMin.x, b.pMin.y, b.pMin.z)));
-            ret = Geometry.Geometry.Union(ret, Apply(new Point(b.pMax.x, b.pMin.y, b.pMin.z)));
-            ret = Geometry.Geometry.Union(ret, Apply(new Point(b.pMin.x, b.pMax.y, b.pMin.z)));
-            ret = Geometry.Geometry.Union(ret, Apply(new Point(b.pMin.x, b.pMin.y, b.pMax.z)));
-            ret = Geometry.Geometry.Union(ret, Apply(new Point(b.pMin.x, b.pMax.y, b.pMax.z)));
-            ret = Geometry.Geometry.Union(ret, Apply(new Point(b.pMax.x, b.pMax.y, b.pMin.z)));
-            ret = Geometry.Geometry.Union(ret, Apply(new Point(b.pMax.x, b.pMin.y, b.pMax.z)));
-            ret = Geometry.Geometry.Union(ret, Apply(new Point(b.pMax.x, b.pMax.y, b.pMax.z)));
+            ret = Geometry.Union(ret, Apply(new Point(b.pMax.x, b.pMin.y, b.pMin.z)));
+            ret = Geometry.Union(ret, Apply(new Point(b.pMin.x, b.pMax.y, b.pMin.z)));
+            ret = Geometry.Union(ret, Apply(new Point(b.pMin.x, b.pMin.y, b.pMax.z)));
+            ret = Geometry.Union(ret, Apply(new Point(b.pMin.x, b.pMax.y, b.pMax.z)));
+            ret = Geometry.Union(ret, Apply(new Point(b.pMax.x, b.pMax.y, b.pMin.z)));
+            ret = Geometry.Union(ret, Apply(new Point(b.pMax.x, b.pMin.y, b.pMax.z)));
+            ret = Geometry.Union(ret, Apply(new Point(b.pMax.x, b.pMax.y, b.pMax.z)));
             return ret;
         }
 
@@ -282,7 +281,7 @@ namespace nPBRT.Core
 
         public static Transform Rotate(double angle, Vector axis)
         {
-            Vector a = Geometry.Geometry.Normalize(axis);
+            Vector a = Geometry.Normalize(axis);
             double s = Math.Sin(Utility.Radians(angle));
             double c = Math.Cos(Utility.Radians(angle));
             double[,] m = new double[4, 4];
@@ -322,9 +321,9 @@ namespace nPBRT.Core
             m[3, 3] = 1;
 
             // Initialize first three columns of viewing matrix
-            Vector dir = Geometry.Geometry.Normalize(look - pos);
-            Vector left = Geometry.Geometry.Normalize(Geometry.Geometry.Cross(Geometry.Geometry.Normalize(up), dir));
-            Vector newUp = Geometry.Geometry.Cross(dir, left);
+            Vector dir = Geometry.Normalize(look - pos);
+            Vector left = Geometry.Normalize(Geometry.Cross(Geometry.Normalize(up), dir));
+            Vector newUp = Geometry.Cross(dir, left);
             m[0, 0] = left.x;
             m[1, 0] = left.y;
             m[2, 0] = left.z;
@@ -339,7 +338,7 @@ namespace nPBRT.Core
             m[3, 2] = 0.0d;
             Matrix4x4 camToWorld = new Matrix4x4(m);
             return new Transform(Inverse(camToWorld), camToWorld);
-        } 
+        }
 
     }
 }

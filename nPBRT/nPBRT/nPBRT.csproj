@@ -39,21 +39,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Geometry\BBox.cs" />
-    <Compile Include="Core\Geometry\DifferentialGeometry.cs" />
-    <Compile Include="Core\Geometry\Geometry.cs" />
-    <Compile Include="Core\Geometry\Normal.cs" />
-    <Compile Include="Core\Geometry\Point.cs" />
-    <Compile Include="Core\Geometry\Ray.cs" />
-    <Compile Include="Core\Geometry\RayDifferential.cs" />
-    <Compile Include="Core\Geometry\Vector.cs" />
+    <Compile Include="Core\BBox.cs" />
+    <Compile Include="Core\DifferentialGeometry.cs" />
+    <Compile Include="Core\Geometry.cs" />
+    <Compile Include="Core\MonteCarlo.cs" />
+    <Compile Include="Core\Normal.cs" />
+    <Compile Include="Core\Point.cs" />
+    <Compile Include="Core\Ray.cs" />
+    <Compile Include="Core\RayDifferential.cs" />
+    <Compile Include="Core\Vector.cs" />
     <Compile Include="Core\Matrix4x4.cs" />
     <Compile Include="Core\Quaternion.cs" />
     <Compile Include="Core\Shape.cs" />
     <Compile Include="Core\Transform.cs" />
     <Compile Include="Core\Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shapes\Sphere.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

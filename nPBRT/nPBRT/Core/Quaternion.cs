@@ -1,5 +1,4 @@
-﻿using nPBRT.Core.Geometry;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -105,7 +104,7 @@ namespace nPBRT.Core
 
         public double Dot(Quaternion q1, Quaternion q2)
         {
-            return Geometry.Geometry.Dot(q1.v, q2.v) + q1.w * q2.w;
+            return  Geometry.Dot(q1.v, q2.v) + q1.w * q2.w;
         }
 
 
