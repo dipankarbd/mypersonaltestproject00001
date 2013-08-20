@@ -23,6 +23,26 @@ namespace nPBRT.Core
             if (v1.HasNaNs() || v2.HasNaNs()) throw new InvalidOperationException();
             return new Vector((v1.y * v2.z) - (v1.z * v2.y), (v1.z * v2.x) - (v1.x * v2.z), (v1.x * v2.y) - (v1.y * v2.x));
         }
+        public static Vector Cross(Vector v1, Normal v2)
+        {
+            if (v1.HasNaNs() || v2.HasNaNs()) throw new InvalidOperationException();
+            double v1x = v1.x, v1y = v1.y, v1z = v1.z;
+            double v2x = v2.x, v2y = v2.y, v2z = v2.z;
+            return new Vector((v1y * v2z) - (v1z * v2y),
+                          (v1z * v2x) - (v1x * v2z),
+                          (v1x * v2y) - (v1y * v2x));
+        }
+
+
+        public static Vector Cross(Normal v1, Vector v2)
+        {
+            if (v1.HasNaNs() || v2.HasNaNs()) throw new InvalidOperationException();
+            double v1x = v1.x, v1y = v1.y, v1z = v1.z;
+            double v2x = v2.x, v2y = v2.y, v2z = v2.z;
+            return new Vector((v1y * v2z) - (v1z * v2y),
+                          (v1z * v2x) - (v1x * v2z),
+                          (v1x * v2y) - (v1y * v2x));
+        }
         public static Vector Normalize(Vector v)
         {
             return v / v.Length();

@@ -49,6 +49,7 @@
     <Compile Include="Core\Point.cs" />
     <Compile Include="Core\Ray.cs" />
     <Compile Include="Core\RayDifferential.cs" />
+    <Compile Include="Core\Texture.cs" />
     <Compile Include="Core\Vector.cs" />
     <Compile Include="Core\Matrix4x4.cs" />
     <Compile Include="Core\Quaternion.cs" />
@@ -62,6 +63,8 @@
     <Compile Include="Shapes\Hyperboloid.cs" />
     <Compile Include="Shapes\Paraboloid.cs" />
     <Compile Include="Shapes\Sphere.cs" />
+    <Compile Include="Shapes\Triangle.cs" />
+    <Compile Include="Shapes\TriangleMesh.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

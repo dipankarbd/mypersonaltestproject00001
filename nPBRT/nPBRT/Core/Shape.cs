@@ -73,7 +73,7 @@ namespace nPBRT.Core
             return pdf;
         }
 
-        public bool CanIntersect()
+        public virtual bool CanIntersect()
         {
             return true;
         }

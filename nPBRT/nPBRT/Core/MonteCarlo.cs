@@ -40,6 +40,13 @@ namespace nPBRT.Core
             return 1.0d / (2.0d * Math.PI * (1.0d - cosThetaMax));
         }
 
+        public static void UniformSampleTriangle(double u1, double u2, out double u, out  double v)
+        {
+            double su1 = Math.Sqrt(u1);
+            u = 1.0d - su1;
+            v = u2 * su1;
+        }
+
         public static void ConcentricSampleDisk(double u1, double u2, ref double dx, ref double dy)
         {
             double r, theta;
@@ -91,5 +98,8 @@ namespace nPBRT.Core
             dx = r * Math.Cos(theta);
             dy = r * Math.Sin(theta);
         }
+
+
+
     }
 }
