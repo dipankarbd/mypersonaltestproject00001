@@ -26,8 +26,7 @@ namespace nPBRT.Core
         public abstract BBox ObjectBound(); 
         public abstract bool Intersect(Ray r, out double tHit, out double rayEpsilon, out DifferentialGeometry dg);
         public abstract bool IntersectP(Ray r);
-        public abstract double Area();
-        public abstract Point Sample(double u1, double u2, ref Normal ns);
+        public abstract double Area(); 
 
         public virtual BBox WorldBound()
         {
@@ -40,6 +39,11 @@ namespace nPBRT.Core
         }
 
         public virtual void Refine(ref List<Shape> refined)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Point Sample(double u1, double u2, ref Normal ns)
         {
             throw new NotImplementedException();
         }

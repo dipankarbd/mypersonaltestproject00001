@@ -56,8 +56,11 @@
     <Compile Include="Core\Transform.cs" />
     <Compile Include="Core\Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shapes\Cone.cs" />
     <Compile Include="Shapes\Cylinder.cs" />
     <Compile Include="Shapes\Disk.cs" />
+    <Compile Include="Shapes\Hyperboloid.cs" />
+    <Compile Include="Shapes\Paraboloid.cs" />
     <Compile Include="Shapes\Sphere.cs" />
   </ItemGroup>
   <ItemGroup />

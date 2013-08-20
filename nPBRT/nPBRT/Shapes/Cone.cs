@@ -7,23 +7,22 @@ using nPBRT.Core;
 
 namespace nPBRT.Shapes
 {
-    public class Cylinder : Shape
+    public class Cone : Shape
     {
-        protected double radius, zmin, zmax, phiMax;
+        protected double radius, height, phiMax;
 
-        public Cylinder(Transform o2w, Transform w2o, bool ro, double rad, double z0, double z1, double pm)
+        public Cone(Transform o2w, Transform w2o, bool ro, double ht, double rad, double tm)
             : base(o2w, w2o, ro)
         {
             radius = rad;
-            zmin = Math.Min(z0, z1);
-            zmax = Math.Max(z0, z1);
-            phiMax = Utility.Radians(Utility.Clamp(pm, 0.0d, 360.0d));
+            height = ht;
+            phiMax = Utility.Radians(Utility.Clamp(tm, 0.0d, 360.0d));
         }
 
         public override BBox ObjectBound()
         {
-            Point p1 = new Point(-radius, -radius, zmin);
-            Point p2 = new Point(radius, radius, zmax);
+            Point p1 = new Point(-radius, -radius, 0);
+            Point p2 = new Point(radius, radius, height);
             return new BBox(p1, p2);
         }
 
@@ -39,10 +38,12 @@ namespace nPBRT.Shapes
             // Transform _Ray_ to object space
             Ray ray = WorldToObject.Apply(r);
 
-            // Compute quadratic cylinder coefficients
-            double A = ray.d.x * ray.d.x + ray.d.y * ray.d.y;
-            double B = 2 * (ray.d.x * ray.o.x + ray.d.y * ray.o.y);
-            double C = ray.o.x * ray.o.x + ray.o.y * ray.o.y - radius * radius;
+            // Compute quadratic cone coefficients
+            double k = radius / height;
+            k = k * k;
+            double A = ray.d.x * ray.d.x + ray.d.y * ray.d.y - k * ray.d.z * ray.d.z;
+            double B = 2 * (ray.d.x * ray.o.x + ray.d.y * ray.o.y - k * ray.d.z * (ray.o.z - height));
+            double C = ray.o.x * ray.o.x + ray.o.y * ray.o.y - k * (ray.o.z - height) * (ray.o.z - height);
 
             // Solve quadratic equation for _t_ values
             double t0, t1;
@@ -59,36 +60,36 @@ namespace nPBRT.Shapes
                 if (thit > ray.maxt) return false;
             }
 
-            // Compute cylinder hit point and $\phi$
+            // Compute cone inverse mapping
             phit = ray.GetPointAt(thit);
             phi = Math.Atan2(phit.y, phit.x);
             if (phi < 0.0d) phi += 2.0d * Math.PI;
 
-            // Test cylinder intersection against clipping parameters
-            if (phit.z < zmin || phit.z > zmax || phi > phiMax)
+            // Test cone intersection against clipping parameters
+            if (phit.z < 0 || phit.z > height || phi > phiMax)
             {
                 if (thit == t1) return false;
                 thit = t1;
                 if (t1 > ray.maxt) return false;
-                // Compute cylinder hit point and $\phi$
+                // Compute cone inverse mapping
                 phit = ray.GetPointAt(thit);
                 phi = Math.Atan2(phit.y, phit.x);
                 if (phi < 0.0d) phi += 2.0d * Math.PI;
-                if (phit.z < zmin || phit.z > zmax || phi > phiMax)
+                if (phit.z < 0 || phit.z > height || phi > phiMax)
                     return false;
             }
 
-            // Find parametric representation of cylinder hit
+            // Find parametric representation of cone hit
             double u = phi / phiMax;
-            double v = (phit.z - zmin) / (zmax - zmin);
+            double v = phit.z / height;
 
-            // Compute cylinder $\dpdu$ and $\dpdv$
+            // Compute cone $\dpdu$ and $\dpdv$
             Vector dpdu = new Vector(-phiMax * phit.y, phiMax * phit.x, 0);
-            Vector dpdv = new Vector(0, 0, zmax - zmin);
+            Vector dpdv = new Vector(-phit.x / (1.0d - v), -phit.y / (1.0d - v), height);
 
-            // Compute cylinder $\dndu$ and $\dndv$
-            Vector d2Pduu = -phiMax * phiMax * new Vector(phit.x, phit.y, 0);
-            Vector d2Pduv = new Vector(0, 0, 0);
+            // Compute cone $\dndu$ and $\dndv$
+            Vector d2Pduu = -phiMax * phiMax * new Vector(phit.x, phit.y, 0.0d);
+            Vector d2Pduv = phiMax / (1.0d - v) * new Vector(phit.y, -phit.x, 0.0d);
             Vector d2Pdvv = new Vector(0, 0, 0);
 
             // Compute coefficients for fundamental forms
@@ -124,10 +125,15 @@ namespace nPBRT.Shapes
             // Transform _Ray_ to object space
             Ray ray = WorldToObject.Apply(r);
 
-            // Compute quadratic cylinder coefficients
-            double A = ray.d.x * ray.d.x + ray.d.y * ray.d.y;
-            double B = 2 * (ray.d.x * ray.o.x + ray.d.y * ray.o.y);
-            double C = ray.o.x * ray.o.x + ray.o.y * ray.o.y - radius * radius;
+            // Compute quadratic cone coefficients
+            double k = radius / height;
+            k = k * k;
+            double A = ray.d.x * ray.d.x + ray.d.y * ray.d.y -
+                k * ray.d.z * ray.d.z;
+            double B = 2 * (ray.d.x * ray.o.x + ray.d.y * ray.o.y -
+                k * ray.d.z * (ray.o.z - height));
+            double C = ray.o.x * ray.o.x + ray.o.y * ray.o.y -
+                k * (ray.o.z - height) * (ray.o.z - height);
 
             // Solve quadratic equation for _t_ values
             double t0, t1;
@@ -144,22 +150,22 @@ namespace nPBRT.Shapes
                 if (thit > ray.maxt) return false;
             }
 
-            // Compute cylinder hit point and $\phi$
+            // Compute cone inverse mapping
             phit = ray.GetPointAt(thit);
             phi = Math.Atan2(phit.y, phit.x);
             if (phi < 0.0d) phi += 2.0d * Math.PI;
 
-            // Test cylinder intersection against clipping parameters
-            if (phit.z < zmin || phit.z > zmax || phi > phiMax)
+            // Test cone intersection against clipping parameters
+            if (phit.z < 0 || phit.z > height || phi > phiMax)
             {
                 if (thit == t1) return false;
                 thit = t1;
                 if (t1 > ray.maxt) return false;
-                // Compute cylinder hit point and $\phi$
+                // Compute cone inverse mapping
                 phit = ray.GetPointAt(thit);
                 phi = Math.Atan2(phit.y, phit.x);
                 if (phi < 0.0d) phi += 2.0d * Math.PI;
-                if (phit.z < zmin || phit.z > zmax || phi > phiMax)
+                if (phit.z < 0 || phit.z > height || phi > phiMax)
                     return false;
             }
             return true;
@@ -167,26 +173,16 @@ namespace nPBRT.Shapes
 
         public override double Area()
         {
-            return (zmax - zmin) * phiMax * radius;
+            return radius * Math.Sqrt((height * height) + (radius * radius)) * phiMax / 2.0d;
         }
-
-        public override Point Sample(double u1, double u2, ref Normal ns)
-        {
-            double z = Utility.Lerp(u1, zmin, zmax);
-            double t = u2 * phiMax;
-            Point p = new Point(radius * Math.Cos(t), radius * Math.Sin(t), z);
-            ns = Geometry.Normalize(ObjectToWorld.Apply(new Normal(p.x, p.y, 0.0d)));
-            if (ReverseOrientation) ns *= -1.0d;
-            return ObjectToWorld.Apply(p);
-        }
-
-        public static Cylinder CreateCylinderShape(Transform o2w, Transform w2o, bool reverseOrientation, ParamSet parameters)
+         
+        public static Cone CreateConeShape(Transform o2w, Transform w2o, bool reverseOrientation, ParamSet parameters)
         {
             double radius = parameters.FindOneDouble("radius", 1);
-            double zmin = parameters.FindOneDouble("zmin", -1);
-            double zmax = parameters.FindOneDouble("zmax", 1);
+            double height = parameters.FindOneDouble("height", 1);
             double phimax = parameters.FindOneDouble("phimax", 360);
-            return new Cylinder(o2w, w2o, reverseOrientation, radius, zmin, zmax, phimax);
+            return new Cone(o2w, w2o, reverseOrientation, height, radius, phimax);
         }
+
     }
 }

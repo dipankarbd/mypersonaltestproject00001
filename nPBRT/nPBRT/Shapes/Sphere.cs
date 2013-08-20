@@ -242,10 +242,10 @@ namespace nPBRT.Shapes
 
         public static Sphere CreateSphereShape(Transform o2w, Transform w2o, bool reverseOrientation, ParamSet parameters)
         {
-            double radius = (double)parameters.GetParam("radius", 1.0d);
-            double zmin = (double)parameters.GetParam("zmin", -radius);
-            double zmax = (double)parameters.GetParam("zmax", radius);
-            double phimax = (double)parameters.GetParam("phimax", 360.0d);
+            double radius = parameters.FindOneDouble("radius", 1.0d);
+            double zmin = parameters.FindOneDouble("zmin", -radius);
+            double zmax = parameters.FindOneDouble("zmax", radius);
+            double phimax = parameters.FindOneDouble("phimax", 360.0d);
             return new Sphere(o2w, w2o, reverseOrientation, radius, zmin, zmax, phimax);
         }
     }

@@ -120,10 +120,10 @@ namespace nPBRT.Shapes
 
         public static Disk CreateDiskShape(Transform o2w, Transform w2o, bool reverseOrientation, ParamSet parameters)
         {
-            double height = (double)parameters.GetParam("height", 0.0d);
-            double radius = (double)parameters.GetParam("radius", 1);
-            double inner_radius = (double)parameters.GetParam("innerradius", 0);
-            double phimax = (double)parameters.GetParam("phimax", 360);
+            double height = parameters.FindOneDouble("height", 0.0d);
+            double radius = parameters.FindOneDouble("radius", 1);
+            double inner_radius = parameters.FindOneDouble("innerradius", 0);
+            double phimax = parameters.FindOneDouble("phimax", 360);
             return new Disk(o2w, w2o, reverseOrientation, height, radius, inner_radius, phimax);
         }
     }

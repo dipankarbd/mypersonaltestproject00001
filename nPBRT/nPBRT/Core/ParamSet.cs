@@ -20,11 +20,39 @@ namespace nPBRT.Core
         {
             parameters[name] = value;
         }
-        public object GetParam(string name, object def)
+         
+        public double FindOneDouble(string name, double def)
         {
             if (parameters.ContainsKey(name))
             {
-                return parameters[name];
+                try
+                {
+                    return (double)parameters[name];
+                }
+                catch  
+                {
+                    return def;
+                }
+            }
+            else
+            {
+                return def;
+            }
+        }
+
+
+        public Point FindOnePoint(string name, Point def)
+        {
+            if (parameters.ContainsKey(name))
+            {
+                try
+                {
+                    return (Point)parameters[name];
+                }
+                catch
+                {
+                    return def;
+                }
             }
             else
             {
