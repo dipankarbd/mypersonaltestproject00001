@@ -15,11 +15,11 @@ namespace nPBRT.Shapes
         internal Point[] p;
         internal Normal[] n;
         internal Vector[] s;
-        internal float[] uvs;
-        internal Texture<float> alphaTexture;
+        internal double[] uvs;
+        internal Texture<double> alphaTexture;
 
 
-        public TriangleMesh(Transform o2w, Transform w2o, bool ro, int nt, int nv, int[] vi, Point[] P, Normal[] N, Vector[] S, float[] uv, Texture<float> atex)
+        public TriangleMesh(Transform o2w, Transform w2o, bool ro, int nt, int nv, int[] vi, Point[] P, Normal[] N, Vector[] S, double[] uv, Texture<double> atex)
             : base(o2w, w2o, ro)
         {
             alphaTexture = atex;
@@ -30,7 +30,7 @@ namespace nPBRT.Shapes
             // Copy _uv_, _N_, and _S_ vertex data, if present
             if (uv != null)
             {
-                uvs = new float[2 * nverts];
+                uvs = new double[2 * nverts];
                 Array.Copy(uv, 0, uvs, 0, 2 * nverts);
             }
             else
@@ -85,10 +85,10 @@ namespace nPBRT.Shapes
             return false;
         }
 
-        public override void Refine(ref List<Shape> refined)
+        public override void Refine(ref LinkedList<Shape> refined)
         {
             for (int i = 0; i < ntris; ++i)
-                refined.Add(new Triangle(ObjectToWorld, WorldToObject, ReverseOrientation, this, i));
+                refined.AddLast(new Triangle(ObjectToWorld, WorldToObject, ReverseOrientation, this, i));
         }
         public override bool Intersect(Ray r, out double tHit, out double rayEpsilon, out DifferentialGeometry dg)
         {
@@ -105,13 +105,13 @@ namespace nPBRT.Shapes
             throw new NotImplementedException();
         }
 
-        public static TriangleMesh CreateTriangleMeshShape(Transform o2w, Transform w2o, bool reverseOrientation, ParamSet parameters, Dictionary<string, Texture<float>> floatTextures)
+        public static TriangleMesh CreateTriangleMeshShape(Transform o2w, Transform w2o, bool reverseOrientation, ParamSet parameters, Dictionary<string, Texture<double>> floatTextures)
         {
             throw new NotImplementedException();
             //int nvi, npi, nuvi, nsi, nni;
             //const int *vi = parameters.FindInt("indices", &nvi);
             //const Point *P = parameters.FindPoint("P", &npi);
-            //const float *uvs = parameters.FindFloat("uv", &nuvi);
+            //const double *uvs = parameters.FindFloat("uv", &nuvi);
             //if (!uvs) uvs = parameters.FindFloat("st", &nuvi);
             //bool discardDegnerateUVs = parameters.FindOneBool("discarddegenerateUVs", false);
             //// XXX should complain if uvs aren't an array of 2...
@@ -141,7 +141,7 @@ namespace nPBRT.Shapes
             //    // give degenerate mappings; discard them if so
             //    const int *vp = vi;
             //    for (int i = 0; i < nvi; i += 3, vp += 3) {
-            //        float area = .5f * Cross(P[vp[0]]-P[vp[1]], P[vp[2]]-P[vp[1]]).Length();
+            //        double area = .5f * Cross(P[vp[0]]-P[vp[1]], P[vp[2]]-P[vp[1]]).Length();
             //        if (area < 1e-7) continue; // ignore degenerate tris.
             //        if ((uvs[2*vp[0]] == uvs[2*vp[1]] &&
             //            uvs[2*vp[0]+1] == uvs[2*vp[1]+1]) ||
@@ -162,17 +162,17 @@ namespace nPBRT.Shapes
             //        return NULL;
             //    }
 
-            //Reference<Texture<float> > alphaTex = NULL;
+            //Reference<Texture<double> > alphaTex = NULL;
             //string alphaTexName = params.FindTexture("alpha");
             //if (alphaTexName != "") {
             //    if (floatTextures->find(alphaTexName) != floatTextures->end())
             //        alphaTex = (*floatTextures)[alphaTexName];
             //    else
-            //        Error("Couldn't find float texture \"%s\" for \"alpha\" parameter",
+            //        Error("Couldn't find double texture \"%s\" for \"alpha\" parameter",
             //              alphaTexName.c_str());
             //}
             //else if (params.FindOneFloat("alpha", 1.f) == 0.f)
-            //    alphaTex = new ConstantTexture<float>(0.f);
+            //    alphaTex = new ConstantTexture<double>(0.f);
             //return new TriangleMesh(o2w, w2o, reverseOrientation, nvi/3, npi, vi, P,
             //    N, S, uvs, alphaTex);
         }

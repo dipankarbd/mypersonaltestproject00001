@@ -39,16 +39,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\AreaLight.cs" />
     <Compile Include="Core\BBox.cs" />
+    <Compile Include="Core\BSDF.cs" />
+    <Compile Include="Core\BSSRDF.cs" />
     <Compile Include="Core\Constants.cs" />
     <Compile Include="Core\DifferentialGeometry.cs" />
+    <Compile Include="Core\GeometricPrimitive.cs" />
     <Compile Include="Core\Geometry.cs" />
+    <Compile Include="Core\Intersection.cs" />
+    <Compile Include="Core\Material.cs" />
     <Compile Include="Core\MonteCarlo.cs" />
     <Compile Include="Core\Normal.cs" />
     <Compile Include="Core\ParamSet.cs" />
     <Compile Include="Core\Point.cs" />
+    <Compile Include="Core\Primitive.cs" />
     <Compile Include="Core\Ray.cs" />
     <Compile Include="Core\RayDifferential.cs" />
+    <Compile Include="Core\Spectrum.cs" />
     <Compile Include="Core\Texture.cs" />
     <Compile Include="Core\Vector.cs" />
     <Compile Include="Core\Matrix4x4.cs" />

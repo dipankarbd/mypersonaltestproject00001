@@ -36,6 +36,8 @@ namespace nPBRT.Core
         {
             return new Transform(t.mInv, t.m);
         }
+
+
         public virtual Transform Transpose(Transform t)
         {
             return new Transform(Transpose(t.m), Transpose(t.mInv));
@@ -340,5 +342,17 @@ namespace nPBRT.Core
             return new Transform(Inverse(camToWorld), camToWorld);
         }
 
+
+        public bool IsIdentity()
+        {
+            return (m.m[0, 0] == 1.0d && m.m[0, 1] == 0.0d &&
+              m.m[0, 2] == 0.0d && m.m[0, 3] == 0.0d &&
+              m.m[1, 0] == 0.0d && m.m[1, 1] == 1.0d &&
+              m.m[1, 2] == 0.0d && m.m[1, 3] == 0.0d &&
+              m.m[2, 0] == 0.0d && m.m[2, 1] == 0.0d &&
+              m.m[2, 2] == 1.0d && m.m[2, 3] == 0.0d &&
+              m.m[3, 0] == 0.0d && m.m[3, 1] == 0.0d &&
+              m.m[3, 2] == 0.0d && m.m[3, 3] == 1.0d);
+        }
     }
 }

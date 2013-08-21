@@ -38,7 +38,7 @@ namespace nPBRT.Core
             dgShading = dg;
         }
 
-        public virtual void Refine(ref List<Shape> refined)
+        public virtual void Refine(ref LinkedList<Shape> refined)
         {
             throw new NotImplementedException();
         }
