@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{445AB222-4A85-43FF-8F81-F88619AD61F5}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{2285DC6C-2090-4E68-B075-3B8F14A8916D}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>nPBRT</RootNamespace>
-    <AssemblyName>nPBRT</AssemblyName>
+    <RootNamespace>cs222Practice</RootNamespace>
+    <AssemblyName>cs222Practice</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,8 +32,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Infragistics2.Shared.v12.1, Version=12.1.20121.1001, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb" />
+    <Reference Include="Infragistics2.Win.Misc.v12.1, Version=12.1.20121.1001, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb" />
+    <Reference Include="Infragistics2.Win.UltraWinGrid.v12.1, Version=12.1.20121.1001, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.v12.1, Version=12.1.20121.1001, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb" />
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="OxyPlot">
+      <HintPath>..\packages\OxyPlot.WindowsForms.2013.1.74.1\lib\NET45\OxyPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.WindowsForms">
+      <HintPath>..\packages\OxyPlot.WindowsForms.2013.1.74.1\lib\NET45\OxyPlot.WindowsForms.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -39,44 +55,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\AnimatedTransform.cs" />
-    <Compile Include="Core\AreaLight.cs" />
-    <Compile Include="Core\BBox.cs" />
-    <Compile Include="Core\BSDF.cs" />
-    <Compile Include="Core\BSSRDF.cs" />
-    <Compile Include="Core\Constants.cs" />
-    <Compile Include="Core\DifferentialGeometry.cs" />
-    <Compile Include="Core\GeometricPrimitive.cs" />
-    <Compile Include="Core\Geometry.cs" />
-    <Compile Include="Core\Intersection.cs" />
-    <Compile Include="Core\Material.cs" />
-    <Compile Include="Core\MonteCarlo.cs" />
-    <Compile Include="Core\Normal.cs" />
-    <Compile Include="Core\ParamSet.cs" />
-    <Compile Include="Core\Point.cs" />
-    <Compile Include="Core\Primitive.cs" />
-    <Compile Include="Core\Ray.cs" />
-    <Compile Include="Core\RayDifferential.cs" />
-    <Compile Include="Core\Spectrum.cs" />
-    <Compile Include="Core\Texture.cs" />
-    <Compile Include="Core\TransformedPrimitive.cs" />
-    <Compile Include="Core\Vector.cs" />
-    <Compile Include="Core\Matrix4x4.cs" />
-    <Compile Include="Core\Quaternion.cs" />
-    <Compile Include="Core\Shape.cs" />
-    <Compile Include="Core\Transform.cs" />
-    <Compile Include="Core\Utility.cs" />
+    <Compile Include="GraphForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GraphForm.Designer.cs">
+      <DependentUpon>GraphForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shapes\Cone.cs" />
-    <Compile Include="Shapes\Cylinder.cs" />
-    <Compile Include="Shapes\Disk.cs" />
-    <Compile Include="Shapes\Hyperboloid.cs" />
-    <Compile Include="Shapes\Paraboloid.cs" />
-    <Compile Include="Shapes\Sphere.cs" />
-    <Compile Include="Shapes\Triangle.cs" />
-    <Compile Include="Shapes\TriangleMesh.cs" />
+    <Compile Include="Unit1.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GraphForm.resx">
+      <DependentUpon>GraphForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
