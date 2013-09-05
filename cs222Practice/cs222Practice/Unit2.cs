@@ -18,7 +18,7 @@ namespace cs222Practice
         double radius;
         double speed;
 
-        double h = 5.0;//s 
+        
         double spacecraftMass = 30000.0d;// kg 
 
         List<double> hArray;
@@ -83,6 +83,15 @@ namespace cs222Practice
             Vector2D[] x;
             double[] energy;
             TotalEnergy(out x, out energy);
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append("i,x.x,x.y,e" + Environment.NewLine);
+            for (int i = 0; i < x.Length; i++)
+            {
+                sb.Append(i + "," + x[i].x + "," + x[i].y + "," + energy[i] + Environment.NewLine);
+            }
+            File.WriteAllText("energy.csv", sb.ToString());
+            Console.WriteLine("done...");
         }
 
         private Vector2D Acceleration(Vector2D spaceshipPosition)
@@ -200,6 +209,8 @@ namespace cs222Practice
         private void TotalEnergy(out Vector2D[] x, out double[] energy)
         {
             int numSteps = 20000;
+            double h = 5.0;//s 
+
             x = new Vector2D[numSteps + 1]; // m
             Vector2D[] v = new Vector2D[numSteps + 1]; // m / s
             energy = new double[numSteps + 1];//  J = kg m2 / s2
@@ -219,6 +230,11 @@ namespace cs222Practice
             {
                 x[step + 1] = x[step] + h * v[step];
                 v[step + 1] = v[step] + h * Acceleration(x[step]);
+            }
+
+            for (int step = 0; step < numSteps + 1; step++)
+            {
+                energy[step] = 0.5 * spacecraftMass * Math.Pow(v[step].Length(), 2) - gravitationalConstant * earthMass * spacecraftMass/x[step].Length();
             }
 
         }
