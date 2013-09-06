@@ -9,8 +9,6 @@ namespace cs222Practice
 {
     public class Unit2
     {
-
-
         double totalTime = 24.0d * 3600.0d; //  s
         double g = 9.81;// m / s2
         double earthMass = 5.97e24;// kg
@@ -30,10 +28,12 @@ namespace cs222Practice
             radius = Math.Pow((gravitationalConstant * earthMass * Math.Pow(totalTime, 2) / 4.0d / Math.Pow(Math.PI, 2)), (1.0d / 3.0d));
             speed = 2.0 * Math.PI * radius / totalTime;
 
-            Part5();
+            Part6();
         }
 
-       
+
+
+
         private void Part1()
         {
             StringBuilder sb = new StringBuilder();
@@ -111,12 +111,28 @@ namespace cs222Practice
             Console.WriteLine("done...");
         }
 
+        private void Part6()
+        {
+            Vector2D[] x, v;
+
+            ApplyBoost(out x, out v);
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append(" x.x,x.y " + Environment.NewLine);
+            for (int i = 0; i < x.Length; i++)
+            {
+                sb.Append(  x[i].x + "," + x[i].y  + Environment.NewLine);
+            }
+            File.WriteAllText("boost_the_rocket.csv", sb.ToString());
+            Console.WriteLine("done...");
+        }
+
         private Vector2D Acceleration(Vector2D spaceshipPosition)
         {
             Vector2D vectorToEarth = -spaceshipPosition;//earth located at origin
             return gravitationalConstant * earthMass * vectorToEarth / Math.Pow(vectorToEarth.Length(), 3);
         }
-         
+
         private void CalculateError(int numSteps, out double h, out double e)
         {
             h = totalTime / numSteps;
@@ -285,6 +301,42 @@ namespace cs222Practice
             {
                 energy[step] = 0.5 * spacecraftMass * Math.Pow(v[step].Length(), 2) - gravitationalConstant * earthMass * spacecraftMass / x[step].Length();
             }
+        }
+
+        private void ApplyBoost(out Vector2D[] x, out Vector2D[] v)
+        {
+            double h = 3.0;
+            int numSteps = 7000;
+            x = new Vector2D[numSteps + 1];
+            v = new Vector2D[numSteps + 1];
+
+            for (int i = 0; i < numSteps + 1; i++)
+            {
+                x[i] = new Vector2D();
+                v[i] = new Vector2D();
+            }
+
+            x[0].x = 15e6;
+            x[0].y = 1e6;
+            v[0].x = 2e3;
+            v[0].y = 4e3;
+
+            bool boostDone = false;
+
+            for (int step = 0; step < numSteps; step++)
+            {
+                if (h * step >= 2.0 * 3600.0 && !boostDone)
+                {
+                    v[step] += 300.0 * v[step] / v[step].Length();
+                    boostDone = true;
+                }
+
+                Vector2D acceleration0 = Acceleration(x[step]);
+                Vector2D xE = x[step] + h * v[step];
+                Vector2D vE = v[step] + h * acceleration0;
+                x[step + 1] = x[step] + h * 0.5 * (v[step] + vE);
+                v[step + 1] = v[step] + h * 0.5 * (acceleration0 + Acceleration(xE));
+            } 
         }
     }
 }
