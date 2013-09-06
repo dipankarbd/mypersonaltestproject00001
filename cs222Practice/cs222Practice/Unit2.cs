@@ -18,7 +18,7 @@ namespace cs222Practice
         double radius;
         double speed;
 
-        
+
         double spacecraftMass = 30000.0d;// kg 
 
         List<double> hArray;
@@ -30,9 +30,10 @@ namespace cs222Practice
             radius = Math.Pow((gravitationalConstant * earthMass * Math.Pow(totalTime, 2) / 4.0d / Math.Pow(Math.PI, 2)), (1.0d / 3.0d));
             speed = 2.0 * Math.PI * radius / totalTime;
 
-            Part4();
+            Part5();
         }
 
+       
         private void Part1()
         {
             StringBuilder sb = new StringBuilder();
@@ -94,13 +95,28 @@ namespace cs222Practice
             Console.WriteLine("done...");
         }
 
+        private void Part5()
+        {
+            Vector2D[] x;
+            double[] energy;
+            SymplecticEuler(out x, out energy);
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append("i,x.x,x.y,e" + Environment.NewLine);
+            for (int i = 0; i < x.Length; i++)
+            {
+                sb.Append(i + "," + x[i].x + "," + x[i].y + "," + energy[i] + Environment.NewLine);
+            }
+            File.WriteAllText("symplectic_energy.csv", sb.ToString());
+            Console.WriteLine("done...");
+        }
+
         private Vector2D Acceleration(Vector2D spaceshipPosition)
         {
             Vector2D vectorToEarth = -spaceshipPosition;//earth located at origin
             return gravitationalConstant * earthMass * vectorToEarth / Math.Pow(vectorToEarth.Length(), 3);
         }
-
-
+         
         private void CalculateError(int numSteps, out double h, out double e)
         {
             h = totalTime / numSteps;
@@ -234,9 +250,41 @@ namespace cs222Practice
 
             for (int step = 0; step < numSteps + 1; step++)
             {
-                energy[step] = 0.5 * spacecraftMass * Math.Pow(v[step].Length(), 2) - gravitationalConstant * earthMass * spacecraftMass/x[step].Length();
+                energy[step] = 0.5 * spacecraftMass * Math.Pow(v[step].Length(), 2) - gravitationalConstant * earthMass * spacecraftMass / x[step].Length();
             }
 
+        }
+
+        private void SymplecticEuler(out Vector2D[] x, out double[] energy)
+        {
+            double h = 5.0;
+            int numSteps = 20000;
+
+            x = new Vector2D[numSteps + 1]; // m
+            Vector2D[] v = new Vector2D[numSteps + 1]; // m / s
+            energy = new double[numSteps + 1];//  J = kg m2 / s2
+
+            for (int i = 0; i < numSteps + 1; i++)
+            {
+                x[i] = new Vector2D();
+                v[i] = new Vector2D();
+            }
+
+            x[0].x = 15e6;
+            x[0].y = 1e6;
+            v[0].x = 2e3;
+            v[0].y = 4e3;
+
+            for (int step = 0; step < numSteps; step++)
+            {
+                x[step + 1] = x[step] + h * v[step];
+                v[step + 1] = v[step] + h * Acceleration(x[step + 1]);
+            }
+
+            for (int step = 0; step < numSteps + 1; step++)
+            {
+                energy[step] = 0.5 * spacecraftMass * Math.Pow(v[step].Length(), 2) - gravitationalConstant * earthMass * spacecraftMass / x[step].Length();
+            }
         }
     }
 }
