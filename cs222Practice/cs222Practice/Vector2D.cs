@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace cs222Practice
 {
-    public class Vector2D
+    public class Vector2D : ICloneable
     {
         public double x, y;
         public Vector2D()
@@ -88,6 +88,11 @@ namespace cs222Practice
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
 }
