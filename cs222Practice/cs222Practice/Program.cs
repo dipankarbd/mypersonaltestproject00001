@@ -13,7 +13,7 @@ namespace cs222Practice
             //GraphForm frm = new GraphForm();
             //frm.ShowDialog();
 
-            new ProblemSet2();
+            new Unit3();
             Console.ReadKey();
         }
     }
